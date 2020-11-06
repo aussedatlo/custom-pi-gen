@@ -1,0 +1,41 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          mysql_create_db_once
+# Required-Start:    mysql
+# Required-Stop:
+# Default-Start:     5
+# Default-Stop:
+# Short-Description: Create owncloud database
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+DATABASE_NAME=
+DATABASE_USER=
+DATABASE_PASSWORD=
+
+create_database()
+{
+mysql << EOF >> /var/log/mysql.log 2>&1
+create database ${DATABASE_NAME};
+create user ${DATABASE_USER}@localhost identified by '${DATABASE_PASSWORD}';
+grant all privileges on ${DATABASE_NAME}.* to ${DATABASE_USER}@localhost identified by '${DATABASE_PASSWORD}';
+flush privileges;
+exit
+
+EOF
+}
+
+case "$1" in
+  start)
+    log_daemon_msg "Starting mysql_create_db_once"
+    create_database
+    # update-rc.d mysql_create_db_once remove &&
+    # rm /etc/init.d/mysql_create_db_once &&
+    log_end_msg $?
+    ;;
+  *)
+    echo "Usage: $0 start" >&2
+    exit 3
+    ;;
+esac
