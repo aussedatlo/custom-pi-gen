@@ -3,6 +3,7 @@
 # stage2-config
 export ENABLE_WIFI="${ENABLE_WIFI:-0}"
 export PUBLIC_KEY_PATH
+export MOUNT_DEVICE
 
 # stage2-nextcloud
 export NEXTCLOUD_DB_USER="${NEXTCLOUD_DB_USER:-nextcloud}"
