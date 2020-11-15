@@ -1,0 +1,14 @@
+[Unit]
+Description=Lightning Network Daemon
+Requires=bitcoind.service
+After=bitcoind.service
+
+[Service]
+User=bitcoin
+Group=bitcoin
+Type=simple
+ExecStart=/usr/local/bin/lnd
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target
